@@ -6,9 +6,12 @@
 
 int sc_main(int, char**)
 {
+    sc_clock clock("clk", 10, SC_NS, 0.5);
+
     sc_signal<bool> sigA, sigB, sigZ;
 
     stim Stim1("Stimulus");
+    Stim1.Clk(clock);
     Stim1.A(sigA);
     Stim1.B(sigB);
 
@@ -18,6 +21,7 @@ int sc_main(int, char**)
     DUT.Z(sigZ);
 
     Monitor mon("Monitor");
+    mon.Clk(clock);
     mon.A(sigA);
     mon.B(sigB);
     mon.Z(sigZ);
@@ -27,6 +31,7 @@ int sc_main(int, char**)
     sc_trace(wf, sigA, "A");
     sc_trace(wf, sigB, "B");
     sc_trace(wf, sigZ, "Z");
+    sc_trace(wf, clock, "Clk");
 
     sc_start();  // run forever
 
